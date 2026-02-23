@@ -35,6 +35,11 @@ resource "aws_apigatewayv2_route" "api_info" {
   route_key = "GET /api"
   target    = "integrations/${aws_apigatewayv2_integration.app.id}"
 }
+resource "aws_apigatewayv2_route" "api_docs" {
+  api_id    = aws_apigatewayv2_api.api.id
+  route_key = "GET /api/docs"
+  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
+}
 resource "aws_apigatewayv2_route" "health" {
   api_id    = aws_apigatewayv2_api.api.id
   route_key = "GET /health"
@@ -214,7 +219,7 @@ resource "aws_cloudwatch_log_group" "api_gw" {
 
 resource "aws_apigatewayv2_stage" "base" {
   api_id      = aws_apigatewayv2_api.api.id
-  name        = "base"
+  name        = "$default"
   auto_deploy = true
 
   access_log_settings {
@@ -270,23 +275,25 @@ resource "aws_lambda_function" "app" {
   function_name = "${var.service_name}-function"
   description   = "Offer, demmand service"
   role          = aws_iam_role.lambda_exec.arn
-  handler       = "index.handler"
+  handler       = "dist/src/main.handler"
   runtime       = "nodejs20.x"
 
   filename         = data.archive_file.lambda_zip.output_path
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256
 
+  timeout = 10
+  memory_size = 512
   environment {
     variables = {
       DATABASE_URL       = var.database_url
       DB_PASSWORD        = var.db_password
       DB_USERNAME        = var.db_username
-      NODE_ENV           = "development"
+      NODE_ENV           = "production"
       PORT               = "3000"
       JWT_SECRET         = "redcard-secret-me"
       JWT_REFRESH_SECRET = "redcard-refresh-secret-me"
       CORS_ORIGIN        = "*"
-      LOG_LEVEL          = "debug"
+      LOG_LEVEL          = "info"
     }
   }
 }
@@ -296,11 +303,6 @@ resource "aws_cloudwatch_log_group" "lambda_log" {
   retention_in_days = 7
 }
 
-resource "aws_apigatewayv2_route" "any" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "$default"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
 
 resource "aws_lambda_permission" "allow_apigw_invoke" {
   statement_id  = "AllowExecutionFromAPIGateway"
