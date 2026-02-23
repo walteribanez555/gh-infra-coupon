@@ -1,8 +1,8 @@
 resource "aws_apigatewayv2_integration" "app" {
-  api_id           = aws_apigatewayv2_api.api.id
-  integration_type = "AWS_PROXY"
-  integration_uri  = aws_lambda_function.app.invoke_arn
-  integration_method = "POST"
+  api_id                 = aws_apigatewayv2_api.api.id
+  integration_type       = "AWS_PROXY"
+  integration_uri        = aws_lambda_function.app.invoke_arn
+  integration_method     = "POST"
   payload_format_version = "2.0"
 }
 resource "aws_apigatewayv2_route" "auth_register" {
@@ -276,6 +276,19 @@ resource "aws_lambda_function" "app" {
   filename         = data.archive_file.lambda_zip.output_path
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256
 
+  environment {
+    variables = {
+      DATABASE_URL       = var.database_url
+      DB_PASSWORD        = var.db_password
+      DB_USERNAME        = var.db_username
+      NODE_ENV           = "development"
+      PORT               = "3000"
+      JWT_SECRET         = "redcard-secret-me"
+      JWT_REFRESH_SECRET = "redcard-refresh-secret-me"
+      CORS_ORIGIN        = "*"
+      LOG_LEVEL          = "debug"
+    }
+  }
 }
 
 resource "aws_cloudwatch_log_group" "lambda_log" {
