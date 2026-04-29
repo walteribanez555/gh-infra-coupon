@@ -7,6 +7,8 @@ resource "aws_internet_gateway" "gw" {
 
 locals {
   page_app = "s3-coupon-app-dashboard-bucket-redcard"
+  frontend_aliases = ["management.redcardassist.com.bo"]
+  frontend_acm_certificate_arn = "arn:aws:acm:us-east-1:178191406673:certificate/ae43ca85-e339-4aaa-ae20-afc1b2bf198d"
   tags = {
     Environment = "dev"
     Project     = "coupon-app"
@@ -78,6 +80,10 @@ module "frontend" {
   source = "./modules/frontend"
     bucketname = local.page_app
     tags       = local.tags
+    aliases    = local.frontend_aliases
+    acm_certificate_arn      = local.frontend_acm_certificate_arn
+    minimum_protocol_version = "TLSv1.2_2021"
+    ssl_support_method       = "sni-only"
 }
 
 module "backend" {

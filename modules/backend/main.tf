@@ -135,6 +135,36 @@ resource "aws_apigatewayv2_route" "coupon_post" {
   route_key = "POST /api/v1/coupon"
   target    = "integrations/${aws_apigatewayv2_integration.app.id}"
 }
+resource "aws_apigatewayv2_route" "discount_get" {
+  api_id    = aws_apigatewayv2_api.api.id
+  route_key = "GET /api/v1/discount"
+  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
+}
+
+resource "aws_apigatewayv2_route" "discount_get_id" {
+  api_id    = aws_apigatewayv2_api.api.id
+  route_key = "GET /api/v1/discount/{id}"
+  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
+}
+
+resource "aws_apigatewayv2_route" "discount_patch_id" {
+  api_id = aws_apigatewayv2_api.api.id
+  route_key = "PATCH /api/v1/discount/{id}"
+  target =  "integrations/${aws_apigatewayv2_integration.app.id}"
+}
+
+resource "aws_apigatewayv2_route" "discount_post" {
+  api_id    = aws_apigatewayv2_api.api.id
+  route_key = "POST /api/v1/discount"
+  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
+}
+
+resource "aws_apigatewayv2_route" "discount_delete_id" {
+  api_id    = aws_apigatewayv2_api.api.id
+  route_key = "DELETE /api/v1/discount/{id}"
+  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
+}
+
 resource "aws_apigatewayv2_route" "coupon_get" {
   api_id    = aws_apigatewayv2_api.api.id
   route_key = "GET /api/v1/coupon"
@@ -191,12 +221,13 @@ resource "aws_apigatewayv2_api" "api" {
 
   cors_configuration {
     allow_credentials = false
-    allow_headers     = []
+    allow_headers     = ["*"]
     allow_methods = [
       "GET",
       "HEAD",
       "OPTIONS",
       "POST",
+      "PATCH",
       "PUT",
       "DELETE",
     ]
