@@ -5,209 +5,16 @@ resource "aws_apigatewayv2_integration" "app" {
   integration_method     = "POST"
   payload_format_version = "2.0"
 }
-resource "aws_apigatewayv2_route" "auth_register" {
+
+resource "aws_apigatewayv2_route" "proxy_root" {
   api_id    = aws_apigatewayv2_api.api.id
-  route_key = "POST /api/v1/auth/register"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-resource "aws_apigatewayv2_route" "auth_login" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "POST /api/v1/auth/login"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-resource "aws_apigatewayv2_route" "auth_refresh" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "POST /api/v1/auth/refresh"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-resource "aws_apigatewayv2_route" "auth_create_jwt" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "POST /api/v1/auth"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-resource "aws_apigatewayv2_route" "auth_verify" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "POST /api/v1/auth/verify"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-resource "aws_apigatewayv2_route" "api_info" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "GET /api"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-resource "aws_apigatewayv2_route" "api_docs" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "GET /api/docs"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-resource "aws_apigatewayv2_route" "health" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "GET /health"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-resource "aws_apigatewayv2_route" "health_db" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "GET /health/db"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-resource "aws_apigatewayv2_route" "health_metrics" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "GET /health/metrics"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-resource "aws_apigatewayv2_route" "user_post" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "POST /api/user"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-resource "aws_apigatewayv2_route" "user_get" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "GET /api/user"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-resource "aws_apigatewayv2_route" "user_get_id" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "GET /api/user/{id}"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-resource "aws_apigatewayv2_route" "user_patch_id" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "PATCH /api/user/{id}"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-resource "aws_apigatewayv2_route" "user_delete_id" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "DELETE /api/user/{id}"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-resource "aws_apigatewayv2_route" "roles_post" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "POST /api/roles"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-resource "aws_apigatewayv2_route" "roles_get" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "GET /api/roles"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-resource "aws_apigatewayv2_route" "roles_get_id" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "GET /api/roles/{id}"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-resource "aws_apigatewayv2_route" "roles_patch_id" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "PATCH /api/roles/{id}"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-resource "aws_apigatewayv2_route" "roles_delete_id" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "DELETE /api/roles/{id}"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-resource "aws_apigatewayv2_route" "influencer_post" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "POST /api/v1/influencer"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-resource "aws_apigatewayv2_route" "influencer_get" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "GET /api/v1/influencer"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-resource "aws_apigatewayv2_route" "influencer_get_id" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "GET /api/v1/influencer/{id}"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-resource "aws_apigatewayv2_route" "influencer_patch_id" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "PATCH /api/v1/influencer/{id}"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-resource "aws_apigatewayv2_route" "influencer_delete_id" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "DELETE /api/v1/influencer/{id}"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-resource "aws_apigatewayv2_route" "coupon_post" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "POST /api/v1/coupon"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-resource "aws_apigatewayv2_route" "discount_get" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "GET /api/v1/discount"
+  route_key = "ANY /"
   target    = "integrations/${aws_apigatewayv2_integration.app.id}"
 }
 
-resource "aws_apigatewayv2_route" "discount_get_id" {
+resource "aws_apigatewayv2_route" "proxy_all" {
   api_id    = aws_apigatewayv2_api.api.id
-  route_key = "GET /api/v1/discount/{id}"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-
-resource "aws_apigatewayv2_route" "discount_patch_id" {
-  api_id = aws_apigatewayv2_api.api.id
-  route_key = "PATCH /api/v1/discount/{id}"
-  target =  "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-
-resource "aws_apigatewayv2_route" "discount_post" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "POST /api/v1/discount"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-
-resource "aws_apigatewayv2_route" "discount_delete_id" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "DELETE /api/v1/discount/{id}"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-
-resource "aws_apigatewayv2_route" "coupon_get" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "GET /api/v1/coupon"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-resource "aws_apigatewayv2_route" "coupon_get_id" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "GET /api/v1/coupon/{id}"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-resource "aws_apigatewayv2_route" "coupon_patch_id" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "PATCH /api/v1/coupon/{id}"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-resource "aws_apigatewayv2_route" "coupon_delete_id" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "DELETE /api/v1/coupon/{id}"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-resource "aws_apigatewayv2_route" "campaign_post" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "POST /api/v1/campaign"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-resource "aws_apigatewayv2_route" "campaign_get" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "GET /api/v1/campaign"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-resource "aws_apigatewayv2_route" "campaign_get_id" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "GET /api/v1/campaign/{id}"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-resource "aws_apigatewayv2_route" "campaign_patch_id" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "PATCH /api/v1/campaign/{id}"
-  target    = "integrations/${aws_apigatewayv2_integration.app.id}"
-}
-resource "aws_apigatewayv2_route" "campaign_delete_id" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "DELETE /api/v1/campaign/{id}"
+  route_key = "ANY /{proxy+}"
   target    = "integrations/${aws_apigatewayv2_integration.app.id}"
 }
 
@@ -306,7 +113,7 @@ resource "aws_lambda_function" "app" {
   function_name = "${var.service_name}-function"
   description   = "Offer, demmand service"
   role          = aws_iam_role.lambda_exec.arn
-  handler       = "dist/src/main.handler"
+  handler       = "index.handler"
   runtime       = "nodejs20.x"
 
   filename         = data.archive_file.lambda_zip.output_path
